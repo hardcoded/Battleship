@@ -134,7 +134,7 @@ object Utils {
     }
 
     def displayBoard(board: Board): Unit = {
-        println("   0   1   2   3   4   5   6   7   8   9")
+        println(s"$WHITE   0   1   2   3   4   5   6   7   8   9")
         @tailrec
         def displayGrid(grid: List[List[CellType]], lineNumber: Int): Unit = {
             if(grid.isEmpty) println()
