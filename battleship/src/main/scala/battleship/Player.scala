@@ -26,16 +26,12 @@ case class Player(name: String, isHuman: Boolean, shipsBoard: Board, hitsBoard: 
     def fireAtCell(x: Int, y: Int, opponent: Player): List[Player] = {
         opponent.shipsBoard.grid(x)(y) match {
             case SHIP => {
-                displayMessage("HIT!")
+                displayMessage(s"${Console.RED} HIT! ${Console.RESET} ")
 
                 val shipToUpdate = getShipOnCell(x, y, opponent.fleet)
-                println(s"Index of ship to update : ${opponent.fleet.indexOf(shipToUpdate)}")
-
                 val updatedShip = shipToUpdate.isShot(x, y)
 
-                println(s"Index of ship to update : ${opponent.fleet.indexOf(shipToUpdate)}")
-
-                if(updatedShip.isSunk) displayMessage("Ship sunk!")
+                if(updatedShip.isSunk) displayMessage(s"${Console.RED}  Ship sunk! ${Console.RESET} ")
 
                 val updatedFleet = opponent.fleet.updated(opponent.fleet.indexOf(shipToUpdate), updatedShip)
 
@@ -51,6 +47,7 @@ case class Player(name: String, isHuman: Boolean, shipsBoard: Board, hitsBoard: 
                 return List(updatedSelf, updatedOpponent)
             }
             case HIT => {
+                displayMessage(s"${Console.RED} HIT!")
                 return List(this, opponent)
             }
             case _ => {

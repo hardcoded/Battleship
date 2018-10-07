@@ -53,12 +53,14 @@ object Game extends App {
 
         val activePlayerWithShips = userPlaceShips(ships, gameState.active)
 
-        // boardToString(activePlayerWithShips.shipsBoard)
+        displayBoard(activePlayerWithShips.shipsBoard)
+        askUserToContinue()
         clearConsole()
 
         val opponentWithShips = userPlaceShips(ships, gameState.opponent)
 
-        // boardToString(opponentWithShips.shipsBoard)
+        displayBoard(opponentWithShips.shipsBoard)
+        askUserToContinue()
         clearConsole()
 
         val newGameState = gameState.copy(active = activePlayerWithShips, opponent = opponentWithShips)
@@ -67,7 +69,10 @@ object Game extends App {
         def playerTurn(gameState: GameState): GameState = {
 
             // TODO: display active player's boards
-
+            displayMessage("--> Your hits board")
+            displayBoard(gameState.active.hitsBoard)
+            displayMessage("--> Your ships board")
+            displayBoard(gameState.active.shipsBoard)
 
             displayMessage(s"${gameState.active.name} to shoot")
             val shotXPos = askUserForPosition("x")
@@ -81,6 +86,8 @@ object Game extends App {
                 val updatedGameState = gameState.copy(active = updatedPlayersAfterShot.head, opponent = updatedPlayersAfterShot.last)
 
                 if(!updatedGameState.opponent.isAlive) {
+                    clearConsole()
+
                     displayMessage(s"${updatedGameState.active.name} wins!")
                     val updatedScore = updatedGameState.active.score + 1
                     val updatedWinner = updatedGameState.active.copy(score = updatedScore)
@@ -98,8 +105,12 @@ object Game extends App {
                         case 1 => mainLoop(newGameState)
                         case _ => {
                             displayMessage(s"END OF GAME")
-                            displayMessage(s"Scores : ")
-                            displayMessage(s"${newGameState.active.name}  ${newGameState.active.score} - ${newGameState.opponent.score}  ${newGameState.opponent.name}")
+                            if(newGameState.active.score == newGameState.opponent.score) displayMessage("It's a tie!")
+                            else {
+                                val overallWinner = if(newGameState.active.score < newGameState.opponent.score) newGameState.opponent.name else newGameState.active.name
+                                displayMessage(s"$overallWinner is the overall winner!")
+                            }
+                            displayMessage(s"Scores :  ${newGameState.active.name}  ${newGameState.active.score} - ${newGameState.opponent.score}  ${newGameState.opponent.name}")
                             newGameState
                         }
                     }
@@ -140,6 +151,7 @@ object Game extends App {
                 val shipToPlace = shipsToPlace.head
 
                 // TODO: display ships board
+                displayBoard(player.shipsBoard)
 
                 askUserToPlaceShip(shipToPlace._1, shipToPlace._2)
                 val xPos = askUserForPosition("x")

@@ -2,7 +2,8 @@ package battleship
 
 import scala.io.StdIn.readLine
 import scala.io.StdIn.readInt
-import Console.{println, WHITE, RED, RED_B, YELLOW_B, BLUE_B, GREEN_B}
+import Console.{BLUE_B, WHITE_B, RED, RED_B, WHITE, BLACK_B, RESET, println}
+import scala.annotation.tailrec
 
 import CellType._
 
@@ -132,17 +133,30 @@ object Utils {
         }
     }
 
-    def cellToString(cellType: CellType.Value): Unit = {
-        cellType match {
-            case WATER => print(s"$WHITE | $BLUE_B    $WHITE |")
-            case SHIP => print(s"$WHITE | $YELLOW_B    $WHITE |")
-            case MISS => print(s"$WHITE | $GREEN_B    $WHITE |")
-            case HIT => print(s"$WHITE | $RED_B    $WHITE |")
+    def displayBoard(board: Board): Unit = {
+        println("   0   1   2   3   4   5   6   7   8   9")
+        @tailrec
+        def displayGrid(grid: List[List[CellType]], lineNumber: Int): Unit = {
+            if(grid.isEmpty) println()
+            else {
+                val line = grid.head
+                print(s"$WHITE$lineNumber")
+                line.foreach(cell => cellToString(cell))
+                print(s"$WHITE|")
+                println()
+                displayGrid(grid.tail, lineNumber + 1)
+            }
         }
+        displayGrid(board.grid, 0)
     }
 
-//    def boardtoString(board: Board): String = {
-//        def gridToString
-//    }
+    def cellToString(cellType: CellType): Unit = {
+        cellType match {
+            case WATER => print(s"$WHITE|$BLUE_B   $RESET")
+            case SHIP => print(s"$WHITE|$BLACK_B   $RESET")
+            case MISS => print(s"$WHITE|$WHITE_B   $RESET")
+            case HIT => print(s"$WHITE|$RED_B   $RESET")
+        }
+    }
 
 }
