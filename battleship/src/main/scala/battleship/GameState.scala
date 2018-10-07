@@ -2,11 +2,12 @@ package battleship
 
 import Player._
 
-case class GameState(active: Player, opponent: Player) {
+case class GameState(active: Player, opponent: Player, firstPlayer: Player) {
 
-    def getActivePlayer: Player = active
-
-    def getOpponent: Player = opponent
-
-    def switchPlayers: GameState = GameState(opponent, active)
+    def switchPlayers: GameState = {
+        val switchedActive = opponent
+        val switchedOpponent = active
+        copy(active = switchedActive, opponent = switchedOpponent)
+    }
+    
 }

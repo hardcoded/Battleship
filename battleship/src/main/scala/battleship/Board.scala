@@ -6,35 +6,30 @@ import CellType._
 
 case class Board(grid: List[List[CellType]]) {
 
-    // Getter
-    def grid: List[List[CellType]] = grid
-
-    def placeShip(ship: Ship, grid: List[List[CellType]]): Board = {
+    def placeShip(ship: Ship): Board = {
         @tailrec
         def updatePositionsState(positions: List[(Int, Int)], updatedGrid: List[List[CellType]]): Board = {
             if(positions.isEmpty) copy(grid = updatedGrid)
             else {
                 val pos = positions.head
-                val newBoard = updateCellState(pos._1, pos._2, SHIP)
-                updatePositionsState(positions.tail, newBoard.grid)
+                val newGrid = updateCellState(pos._1, pos._2, updatedGrid, SHIP)
+                updatePositionsState(positions.tail, newGrid)
             }
         }
-        updatePositionsState(ship.positions, grid)
+        updatePositionsState(ship.positions, this.grid)
     }
 
     def isPositionValid(x: Int, y: Int): Boolean = {
-        if(x > 10 || y > 10) false
+        if((x < 0 || x > 9) || (y < 0 || y > 9)) false
         else true
     }
 
     def canPlaceShipOnPosition(x: Int, y: Int): Boolean = {
-        grid(x)(y) match {
-            case WATER => {
-                if(isPositionValid(x,y)) true
-                else false
-            }
+        if(isPositionValid(x,y)) grid(x)(y) match {
+            case WATER => true
             case _ => false
         }
+        else false
     }
 
     def canPlaceShip(ship: Ship): Boolean = {
@@ -50,12 +45,11 @@ case class Board(grid: List[List[CellType]]) {
         checkAllPositions(ship.positions)
     }
 
-    def updateCellState(x: Int, y: Int, newState: CellType.Value): Board = {
-        val matrix = grid
+    def updateCellState(x: Int, y: Int, gridToUpdate: List[List[CellType]], newState: CellType.Value): List[List[CellType]] = {
+        val matrix = gridToUpdate
         val updatedLine = matrix(x).updated(y, newState)
         val newGrid = matrix.updated(x, updatedLine)
-        val updatedBoard: Board = copy(grid = newGrid)
-        return updatedBoard
+        return newGrid
     }
 
 }
