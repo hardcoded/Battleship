@@ -2,8 +2,9 @@ package battleship
 
 import scala.io.StdIn.readLine
 import scala.io.StdIn.readInt
-import Console.{BLUE_B, WHITE_B, RED, RED_B, WHITE, BLACK_B, RESET, println}
+import Console.{BLACK_B, BLUE_B, RED, RED_B, RESET, WHITE, WHITE_B, println}
 import scala.annotation.tailrec
+import scala.util.Random
 
 import CellType._
 
@@ -56,6 +57,18 @@ object Utils {
         }
     }
 
+    def generateRandomPosition(randomX: Random, randomY: Random): (Int, Int) = {
+        val xPos = randomX.nextInt(10)
+        val yPos = randomY.nextInt(10)
+        (xPos, yPos)
+    }
+
+    def generateRandomDirection(random: Random): String = {
+        val dir = random.nextInt()
+        if(dir == 0) "VERTICAL"
+        else "HORIZONTAL"
+    }
+
     def askUserToPlaceShips(userName: String): Unit = displayMessage(s"$userName place your ships")
     def askUserToPlaceShip(shipName: String, shipSize: Int): Unit = displayMessage(s"Place your $shipName of size $shipSize")
 
@@ -97,9 +110,9 @@ object Utils {
         val string = s"""
             Please chose your mode (enter corresponding number) :
                 1 - Human vs Human
-                2 - Human vs AI (Beginner)
-                3 - Human vs AI (Intermediate)
-                4 - Human vs AI (Difficult)
+                2 - Human vs AI (EASY)
+                3 - Human vs AI (MEDIUM)
+                4 - Human vs AI (HARD)
         """
         try {
             displayMessage(string)
