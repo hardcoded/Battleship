@@ -3,6 +3,8 @@ package battleship
 import Utils._
 import CellType._
 
+import scala.util.Random
+
 case class Player(name: String, isHuman: Boolean, shipsBoard: Board, hitsBoard: Board, fleet: List[Ship] = List(), score: Int = 0) {
 
     def isAlive: Boolean = {
@@ -17,11 +19,16 @@ case class Player(name: String, isHuman: Boolean, shipsBoard: Board, hitsBoard: 
         return shipOnCell.get
     }
 
-//    def choseTarget(aiLevel): (Int, Int) = aiLevel match {
-//        case "easy" =>
-//        case "medium" =>
-//        case "hard" =>
-//    }
+    def chooseTarget(aiLevel: String): (Int, Int) = aiLevel match {
+        case "AI-easy" => {
+            val randX = Random.nextInt(10)
+            val randY = Random.nextInt(10)
+            (randX, randY)
+        }
+        case "AI-medium" => (0,0)
+        case "AI-hard" => (0,0)
+        case _ => (0,0)
+    }
 
     def fireAtCell(x: Int, y: Int, opponent: Player): List[Player] = {
         opponent.shipsBoard.grid(x)(y) match {

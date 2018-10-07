@@ -2,13 +2,14 @@ package battleship
 
 import scala.annotation.tailrec
 import scala.collection.immutable.Map
+import scala.util.Random
 
+import Board._
+import CellType._
 import GameState._
 import Player._
-import Board._
 import Ship._
 import Utils._
-import CellType._
 
 /**
   * Entry point of the application (main)
@@ -27,19 +28,28 @@ object Game extends App {
         val mode = askUserChoseMode()
         mode match {
             case 1 =>  {
-                val player1 = createPlayer(1, true)
-                val player2 = createPlayer(2, true)
+                val player1 = createPlayer(1)
+                val player2 = createPlayer(2)
                 val initialGameState = GameState(player1, player2, player1)
                 mainLoop(initialGameState)
             }
             case 2 => {
-                displayMessage(s"Human vs AI (easy)")
+                val player1 = createPlayer(1)
+                val player2 = createAI("AI-easy")
+                val initialGameState = GameState(player1, player2, player1)
+                mainLoop(initialGameState)
             }
             case 3 => {
-                displayMessage(s"Human vs AI (medium)")
+//                val player1 = createPlayer(1)
+//                val player2 = createAI("AI-medium")
+//                val initialGameState = GameState(player1, player2, player1)
+//                mainLoop(initialGameState)
             }
             case 4 => {
-                displayMessage(s"Human vs AI (hard)")
+//                val player1 = createPlayer(1)
+//                val player2 = createAI("AI-hard")
+//                val initialGameState = GameState(player1, player2, player1)
+//                mainLoop(initialGameState)
             }
             case _ => {
                 displayError("This is not a valid option!")
@@ -48,18 +58,22 @@ object Game extends App {
         }
     }
 
+    // TODO: create AI methods to play
+
     def mainLoop(gameState: GameState): GameState = {
         clearConsole()
 
         val activePlayerWithShips = userPlaceShips(ships, gameState.active)
 
         displayBoard(activePlayerWithShips.shipsBoard)
+//        if(gameState.active.isHuman) askUserToContinue()
         askUserToContinue()
         clearConsole()
 
         val opponentWithShips = userPlaceShips(ships, gameState.opponent)
 
         displayBoard(opponentWithShips.shipsBoard)
+//        if(gameState.active.isHuman) askUserToContinue()
         askUserToContinue()
         clearConsole()
 
@@ -75,12 +89,16 @@ object Game extends App {
             displayBoard(gameState.active.shipsBoard)
 
             displayMessage(s"${gameState.active.name} to shoot")
-            val shotXPos = askUserForPosition("x")
-            val shotYPos = askUserForPosition("y")
+
+            val aiShootPos = gameState.active.chooseTarget(gameState.active.name)
+
+            val shotXPos = if(gameState.active.isHuman) askUserForPosition("x") else aiShootPos._1
+            val shotYPos = if(gameState.active.isHuman) askUserForPosition("y") else aiShootPos._2
 
             if(gameState.active.hitsBoard.isPositionValid(shotXPos, shotYPos)) {
                 val updatedPlayersAfterShot = gameState.active.fireAtCell(shotXPos, shotYPos, gameState.opponent)
 
+//                if(gameState.active.isHuman) askUserToContinue()
                 askUserToContinue()
 
                 val updatedGameState = gameState.copy(active = updatedPlayersAfterShot.head, opponent = updatedPlayersAfterShot.last)
@@ -134,12 +152,19 @@ object Game extends App {
         player.copy(shipsBoard = emptyShipsGrid, hitsBoard = emptyHitsGrid, fleet = List())
     }
 
-    def createPlayer(num: Int, isHuman: Boolean): Player = {
+    def createPlayer(num: Int): Player = {
         clearConsole()
         val name = askUserForName(num)
         val emptyShipsGrid = Board(List.fill(10)(List.fill(10)(WATER)))
         val emptyHitsGrid = Board(List.fill(10)(List.fill(10)(WATER)))
-        Player(name, isHuman, emptyShipsGrid, emptyHitsGrid)
+        Player(name, true, emptyShipsGrid, emptyHitsGrid)
+    }
+
+    def createAI(aiName: String): Player = {
+        clearConsole()
+        val emptyShipsGrid = Board(List.fill(10)(List.fill(10)(WATER)))
+        val emptyHitsGrid = Board(List.fill(10)(List.fill(10)(WATER)))
+        Player(aiName, false, emptyShipsGrid, emptyHitsGrid)
     }
 
     def userPlaceShips(shipsToPlace: Map[String, Int], player: Player): Player = {
@@ -153,15 +178,25 @@ object Game extends App {
                 // TODO: display ships board
                 displayBoard(player.shipsBoard)
 
+                val randPos = generateRandomPosition(Random, Random)
+
+                // if human take user input position else random pos
                 askUserToPlaceShip(shipToPlace._1, shipToPlace._2)
-                val xPos = askUserForPosition("x")
-                val yPos = askUserForPosition("y")
-                val direction = askUserForShipDirection() match {
-                    case 1 => "VERTICAL"
-                    case _ => "HORIZONTAL"
+                val xPos = if(player.isHuman) askUserForPosition("x") else randPos._1
+                val yPos = if(player.isHuman) askUserForPosition("y") else randPos._2
+
+                // if human ask direction else generate direction
+                val direction = {
+                    if(player.isHuman) askUserForShipDirection() match {
+                        case 1 => "VERTICAL"
+                        case _ => "HORIZONTAL"
+                    }
+                    else generateRandomDirection(Random)
                 }
+
                 val newShip = Ship(shipToPlace._1, shipToPlace._2, direction)
                 val newShipWithPos = newShip.createPositions(xPos, yPos, List())
+
                 if (player.shipsBoard.canPlaceShip(newShipWithPos)) {
                     val updatedPlayerShipsBoard = player.shipsBoard.placeShip(newShipWithPos)
                     val updatedPlayerFleet = newShipWithPos :: player.fleet
