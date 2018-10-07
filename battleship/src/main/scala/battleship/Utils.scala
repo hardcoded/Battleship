@@ -65,6 +65,7 @@ object Utils {
 
     def generateRandomDirection(random: Random): String = {
         val dir = random.nextInt()
+        // TODO: check if random direction works 
         if(dir == 0) "VERTICAL"
         else "HORIZONTAL"
     }
@@ -147,13 +148,15 @@ object Utils {
     }
 
     def displayBoard(board: Board): Unit = {
-        println(s"$WHITE   0   1   2   3   4   5   6   7   8   9")
+        println(s"$WHITE                           y")
+        println()
+        println(s"$WHITE       0   1   2   3   4   5   6   7   8   9")
         @tailrec
         def displayGrid(grid: List[List[CellType]], lineNumber: Int): Unit = {
             if(grid.isEmpty) println()
             else {
                 val line = grid.head
-                print(s"$WHITE$lineNumber")
+                if(lineNumber == (line.size/2)) print(s"$WHITE x  $lineNumber") else print(s"$WHITE    $lineNumber")
                 line.foreach(cell => cellToString(cell))
                 print(s"$WHITE|")
                 println()
