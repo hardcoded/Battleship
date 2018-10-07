@@ -40,10 +40,10 @@ object Game extends App {
                 mainLoop(initialGameState)
             }
             case 3 => {
-//                val player1 = createPlayer(1)
-//                val player2 = createAI("AI-medium")
-//                val initialGameState = GameState(player1, player2, player1)
-//                mainLoop(initialGameState)
+                val player1 = createPlayer(1)
+                val player2 = createAI("AI-medium")
+                val initialGameState = GameState(player1, player2, player1)
+                mainLoop(initialGameState)
             }
             case 4 => {
 //                val player1 = createPlayer(1)
@@ -101,7 +101,7 @@ object Game extends App {
 //                if(gameState.active.isHuman) askUserToContinue()
                 askUserToContinue()
 
-                val updatedGameState = gameState.copy(active = updatedPlayersAfterShot.head, opponent = updatedPlayersAfterShot.last)
+                val updatedGameState = gameState.copy(active = updatedPlayersAfterShot._1, opponent = updatedPlayersAfterShot._2)
 
                 if(!updatedGameState.opponent.isAlive) {
                     clearConsole()
