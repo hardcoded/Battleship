@@ -1,9 +1,10 @@
 package battleship
 
-import Utils._
-import CellType._
-
+import scala.annotation.tailrec
 import scala.util.Random
+
+import CellType._
+import Utils._
 
 case class Player(name: String, isHuman: Boolean, shipsBoard: Board, hitsBoard: Board, fleet: List[Ship] = List(), score: Int = 0) {
 
@@ -38,17 +39,17 @@ case class Player(name: String, isHuman: Boolean, shipsBoard: Board, hitsBoard: 
       * @param aiLevel target chosen from random to accurate
       * @return tuple of int for the position
       */
-    def chooseTarget(aiLevel: String): (Int, Int) = aiLevel match {
+    def chooseTarget(aiLevel: String, randomX: Random, randomY: Random): (Int, Int) = aiLevel match {
         case "AI-easy" => {
-            val randX = Random.nextInt(10)
-            val randY = Random.nextInt(10)
+            val randX = randomX.nextInt(10)
+            val randY = randomY.nextInt(10)
             (randX, randY)
         }
         case "AI-medium" => {
-            val randX = Random.nextInt(10)
-            val randY = Random.nextInt(10)
+            val randX = randomX.nextInt(10)
+            val randY = randomY.nextInt(10)
             if(!this.hitsBoard.positionIsShot(randX, randY)) (randX, randY)
-            else chooseTarget("AI-medium")
+            else chooseTarget("AI-medium", randomX, randomY)
         }
         case "AI-hard" => (0,0)
         case _ => (0,0)
@@ -64,12 +65,12 @@ case class Player(name: String, isHuman: Boolean, shipsBoard: Board, hitsBoard: 
     def fireAtCell(x: Int, y: Int, opponent: Player): (Player, Player) = {
         opponent.shipsBoard.grid(x)(y) match {
             case SHIP => {
-                displayMessage(s"${Console.RED} HIT! ${Console.RESET} ")
+                if(this.isHuman) displayMessage(s"${Console.RED} HIT! ${Console.RESET} ")
 
                 val shipToUpdate = getShipOnCell(x, y, opponent.fleet)
                 val updatedShip = shipToUpdate.isShot(x, y)
 
-                if(updatedShip.isSunk) displayMessage(s"${Console.RED}  Ship sunk! ${Console.RESET} ")
+                if(updatedShip.isSunk && this.isHuman) displayMessage(s"${Console.RED}  Ship sunk! ${Console.RESET} ")
 
                 val updatedFleet = opponent.fleet.updated(opponent.fleet.indexOf(shipToUpdate), updatedShip)
 
@@ -85,11 +86,11 @@ case class Player(name: String, isHuman: Boolean, shipsBoard: Board, hitsBoard: 
                 return (updatedSelf, updatedOpponent)
             }
             case HIT => {
-                displayMessage(s"${Console.RED} HIT!")
+                if(this.isHuman) displayMessage(s"${Console.RED} HIT!")
                 return (this, opponent)
             }
             case _ => {
-                displayMessage("MISS!")
+                if(this.isHuman) displayMessage("MISS!")
                 val updatedSelfGrid = this.hitsBoard.updateCellState(x, y, this.hitsBoard.grid, MISS)
                 val updatedSelfBoard = this.hitsBoard.copy(grid = updatedSelfGrid)
                 val updatedSelf = copy(hitsBoard = updatedSelfBoard)
