@@ -4,7 +4,7 @@ import scala.annotation.tailrec
 
 case class Ship(name: String, size: Int, direction: String, positions: List[(Int,Int)] = List(), positionsShot: Set[(Int,Int)] = Set()) {
 
-    def isShot(x: Int, y: Int): Ship = {
+    def addShoot(x: Int, y: Int): Ship = {
         val pos = (x,y)
         val newPositionShot = this.positionsShot + pos
         copy(positionsShot = newPositionShot)
