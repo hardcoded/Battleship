@@ -1,5 +1,8 @@
 package battleship
 
+
+import java.io.{BufferedWriter, FileWriter, File}
+
 import scala.io.StdIn.readLine
 import scala.io.StdIn.readInt
 import Console.{BLACK_B, BLUE_B, RED, RED_B, RESET, WHITE, WHITE_B, println}
@@ -22,7 +25,7 @@ object Utils {
         println(Console.WHITE + header)
     }
 
-    def clearConsole(): Unit = print("\033c")
+    def clearConsole(): Unit = print("\033[H\033[2J")
 
     def getUserInputInt(): Int = readInt()
     def getUserInputString(): String = readLine().trim()
@@ -65,7 +68,7 @@ object Utils {
 
     def generateRandomDirection(random: Random): String = {
         val dir = random.nextInt()
-        if(dir == 0) "VERTICAL"
+        if(dir % 2 == 0) "VERTICAL"
         else "HORIZONTAL"
     }
 
@@ -106,13 +109,15 @@ object Utils {
         }
     }
 
-    def askUserChoseMode(): Int = {
-        val string = s"""
-            Please chose your mode (enter corresponding number) :
+    def askUserChooseMode(): Int = {
+        val string = s"""Please chose your mode (enter corresponding number) :
                 1 - Human vs Human
                 2 - Human vs AI (EASY)
                 3 - Human vs AI (MEDIUM)
-                4 - Human vs AI (HARD)
+                4 - Human vs AI (HARD) - not implemented yet
+                5 - AI (EASY) vs AI (MEDIUM)
+                6 - AI (MEDIUM) vs AI (HARD) - not implemented yet
+                7 - AI (EASY) vs AI (HARD)  - not implemented yet
         """
         try {
             displayMessage(string)
@@ -122,17 +127,13 @@ object Utils {
         catch {
             case e: NumberFormatException => {
                 displayError("Please enter a number!")
-                askUserChoseMode()
+                askUserChooseMode()
             }
         }
     }
 
     def askUserForNewGame(): Int = {
-        val string = s"""
-            \nDo you want to play again ? (enter corresponding number)
-                1 - Yes
-                2 - No
-        """
+        val string = s"\nDo you want to play again ? (enter corresponding number) \n    1 - Yes \n    2 - Yes but change mode \n    3 - No"
         try {
             displayMessage(string)
             val userInput = getUserInputInt()
@@ -146,14 +147,30 @@ object Utils {
         }
     }
 
+    def askNumberOfSimulations(): Int = {
+        try {
+            displayMessage("How many simulations do you want to run?")
+            val userInput = getUserInputInt()
+            return userInput
+        }
+        catch {
+            case e: NumberFormatException => {
+                displayError("Please enter a number!")
+                askUserForNewGame()
+            }
+        }
+    }
+
     def displayBoard(board: Board): Unit = {
-        println(s"$WHITE   0   1   2   3   4   5   6   7   8   9")
+        println(s"$WHITE                           y")
+        println()
+        println(s"$WHITE       0   1   2   3   4   5   6   7   8   9")
         @tailrec
         def displayGrid(grid: List[List[CellType]], lineNumber: Int): Unit = {
             if(grid.isEmpty) println()
             else {
                 val line = grid.head
-                print(s"$WHITE$lineNumber")
+                if(lineNumber == (line.size/2)) print(s"$WHITE x  $lineNumber") else print(s"$WHITE    $lineNumber")
                 line.foreach(cell => cellToString(cell))
                 print(s"$WHITE|")
                 println()
@@ -172,4 +189,11 @@ object Utils {
         }
     }
 
+    // TODO: append result if file exist
+    def writeToCSV(gameState: GameState): Unit = {
+        val outputFile = new BufferedWriter(new FileWriter("ai-proof.csv", true))
+        val results = s"\n${gameState.active.name}, ${gameState.active.score}, ${gameState.opponent.score}, ${gameState.opponent.name}"
+        outputFile.write(results)
+        outputFile.close()
+    }
 }

@@ -24,6 +24,12 @@ case class Board(grid: List[List[CellType]]) {
         else true
     }
 
+    def positionIsShot(x: Int, y: Int): Boolean = this.grid(x)(y) match {
+        case HIT => true
+        case MISS => true
+        case _ => false
+    }
+
     def canPlaceShipOnPosition(x: Int, y: Int): Boolean = {
         if(isPositionValid(x,y)) grid(x)(y) match {
             case WATER => true
