@@ -114,10 +114,11 @@ object Utils {
                 1 - Human vs Human
                 2 - Human vs AI (EASY)
                 3 - Human vs AI (MEDIUM)
-                4 - Human vs AI (HARD) - not implemented yet
+                4 - Human vs AI (HARD)
                 5 - AI (EASY) vs AI (MEDIUM)
-                6 - AI (MEDIUM) vs AI (HARD) - not implemented yet
-                7 - AI (EASY) vs AI (HARD)  - not implemented yet
+                6 - AI (EASY) vs AI (HARD)
+                7 - AI (MEDIUM) vs AI (HARD)
+                8 - All AI's
         """
         try {
             displayMessage(string)

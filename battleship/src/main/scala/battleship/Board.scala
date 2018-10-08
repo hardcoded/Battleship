@@ -24,7 +24,7 @@ case class Board(grid: List[List[CellType]]) {
         else true
     }
 
-    def positionIsShot(x: Int, y: Int): Boolean = this.grid(x)(y) match {
+    def positionIsShot(x: Int, y: Int): Boolean = this.getCellState(x, y) match {
         case HIT => true
         case MISS => true
         case _ => false
@@ -50,6 +50,8 @@ case class Board(grid: List[List[CellType]]) {
         }
         checkAllPositions(ship.positions)
     }
+
+    def getCellState(x: Int, y: Int): CellType = this.grid(x)(y)
 
     def updateCellState(x: Int, y: Int, gridToUpdate: List[List[CellType]], newState: CellType.Value): List[List[CellType]] = {
         val matrix = gridToUpdate
