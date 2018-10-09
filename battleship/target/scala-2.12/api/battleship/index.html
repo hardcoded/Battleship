@@ -1,0 +1,338 @@
+<!DOCTYPE html >
+<html>
+        <head>
+          <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+          <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+          <title></title>
+          <meta name="description" content="" />
+          <meta name="keywords" content="" />
+          <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+          
+      <link href="../lib/index.css" media="screen" type="text/css" rel="stylesheet" />
+      <link href="../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
+      <link href="../lib/diagrams.css" media="screen" type="text/css" rel="stylesheet" id="diagrams-css" />
+      <script type="text/javascript" src="../lib/jquery.js"></script>
+      <script type="text/javascript" src="../lib/jquery.panzoom.min.js"></script>
+      <script type="text/javascript" src="../lib/jquery.mousewheel.min.js"></script>
+      <script type="text/javascript" src="../lib/index.js"></script>
+      <script type="text/javascript" src="../index.js"></script>
+      <script type="text/javascript" src="../lib/scheduler.js"></script>
+      <script type="text/javascript" src="../lib/template.js"></script>
+      <script type="text/javascript" src="../lib/tools.tooltip.js"></script>
+      
+      <script type="text/javascript">
+        /* this variable can be used by the JS to determine the path to the root document */
+        var toRoot = '../';
+      </script>
+    
+        </head>
+        <body>
+      <div id="search">
+        <span id="doc-title"><span id="doc-version"></span></span>
+        <span class="close-results"><span class="left">&lt;</span> Back</span>
+        <div id="textfilter">
+          <span class="input">
+            <input autocapitalize="none" placeholder="Search" id="index-input" type="text" accesskey="/" />
+            <i class="clear material-icons"></i>
+            <i id="search-icon" class="material-icons"></i>
+          </span>
+        </div>
+    </div>
+      <div id="search-results">
+        <div id="search-progress">
+          <div id="progress-fill"></div>
+        </div>
+        <div id="results-content">
+          <div id="entity-results"></div>
+          <div id="member-results"></div>
+        </div>
+      </div>
+      <div id="content-scroll-container" style="-webkit-overflow-scrolling: touch;">
+        <div id="content-container" style="-webkit-overflow-scrolling: touch;">
+          <div id="subpackage-spacer">
+            <div id="packages">
+              <h1>Packages</h1>
+              <ul>
+                <li name="_root_.root" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="_root_"></a><a id="root:_root_"></a>
+      <span class="permalink">
+      <a href="index.html#_root_" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="../index.html"><span class="name">root</span></a>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../index.html" class="extype" name="_root_">root</a></dd></dl></div>
+    </li><li name="_root_.battleship" visbl="pub" class="indented1 current" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="battleship"></a><a id="battleship:battleship"></a>
+      <span class="permalink">
+      <a href="index.html#battleship" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <span class="name">battleship</span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../index.html" class="extype" name="_root_">root</a></dd></dl></div>
+    </li><li class="current-entities indented1">
+                        <span class="separator"></span>
+                        <a class="class" href="Board.html" title="The board of the game: 10x10 cells"></a>
+                        <a href="Board.html" title="The board of the game: 10x10 cells">Board</a>
+                      </li><li class="current-entities indented1">
+                        <span class="separator"></span>
+                        <a class="object" href="CellType$.html" title=""></a>
+                        <a href="CellType$.html" title="">CellType</a>
+                      </li><li class="current-entities indented1">
+                        <span class="separator"></span>
+                        <a class="object" href="Game$.html" title="Entry point of the application (main)"></a>
+                        <a href="Game$.html" title="Entry point of the application (main)">Game</a>
+                      </li><li class="current-entities indented1">
+                        <span class="separator"></span>
+                        <a class="class" href="GameState.html" title="The current state of the game: - players grids - players fleet - players scores"></a>
+                        <a href="GameState.html" title="The current state of the game: - players grids - players fleet - players scores">GameState</a>
+                      </li><li class="current-entities indented1">
+                        <span class="separator"></span>
+                        <a class="class" href="Player.html" title="Class to define a player comportement"></a>
+                        <a href="Player.html" title="Class to define a player comportement">Player</a>
+                      </li><li class="current-entities indented1">
+                        <span class="separator"></span>
+                        <a class="class" href="Ship.html" title="Represents a ship"></a>
+                        <a href="Ship.html" title="Represents a ship">Ship</a>
+                      </li><li class="current-entities indented1">
+                        <span class="separator"></span>
+                        <a class="object" href="Utils$.html" title="Utilities functions such as I/O and random number generation"></a>
+                        <a href="Utils$.html" title="Utilities functions such as I/O and random number generation">Utils</a>
+                      </li>
+              </ul>
+            </div>
+          </div>
+          <div id="content">
+            <body class="package value">
+      <div id="definition">
+        <div class="big-circle package">p</div>
+        
+        <h1>battleship<span class="permalink">
+      <a href="../battleship/index.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span></h1>
+        
+      </div>
+
+      <h4 id="signature" class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <span class="name">battleship</span>
+      </span>
+      </h4>
+
+      
+          <div id="comment" class="fullcommenttop"></div>
+        
+
+      <div id="mbrsel">
+        <div class="toggle"></div>
+        <div id="memberfilter">
+          <i class="material-icons arrow"></i>
+          <span class="input">
+            <input id="mbrsel-input" placeholder="Filter all members" type="text" accesskey="/" />
+          </span>
+          <i class="clear material-icons"></i>
+        </div>
+        <div id="filterby">
+          <div id="order">
+            <span class="filtertype">Ordering</span>
+            <ol>
+              
+              <li class="alpha in"><span>Alphabetic</span></li>
+              
+            </ol>
+          </div>
+          
+          <div id="visbl">
+              <span class="filtertype">Visibility</span>
+              <ol><li class="public in"><span>Public</span></li><li class="all out"><span>All</span></li></ol>
+            </div>
+        </div>
+      </div>
+
+      <div id="template">
+        <div id="allMembers">
+        
+
+        <div id="types" class="types members">
+              <h3>Type Members</h3>
+              <ol><li name="battleship.Board" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="BoardextendsProductwithSerializable"></a><a id="Board:Board"></a>
+      <span class="permalink">
+      <a href="../battleship/index.html#BoardextendsProductwithSerializable" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a title="The board of the game: 10x10 cells" href="Board.html"><span class="name">Board</span></a><span class="params">(<span name="grid">grid: <span class="extype" name="scala.collection.immutable.List">List</span>[<span class="extype" name="scala.collection.immutable.List">List</span>[<a href="CellType$.html#CellType=battleship.CellType.Value" class="extmbr" name="battleship.CellType.CellType">CellType</a>]]</span>)</span><span class="result"> extends <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">The board of the game: 10x10 cells</p><div class="fullcomment"><div class="comment cmt"><p>The board of the game: 10x10 cells</p></div><dl class="paramcmts block"><dt class="param">grid</dt><dd class="cmt"><p>the grid composing the Board: cells have a type to know its state</p></dd></dl></div>
+    </li><li name="battleship.GameState" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="GameStateextendsProductwithSerializable"></a><a id="GameState:GameState"></a>
+      <span class="permalink">
+      <a href="../battleship/index.html#GameStateextendsProductwithSerializable" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a title="The current state of the game: - players grids - players fleet - players scores" href="GameState.html"><span class="name">GameState</span></a><span class="params">(<span name="active">active: <a href="Player.html" class="extype" name="battleship.Player">Player</a></span>, <span name="opponent">opponent: <a href="Player.html" class="extype" name="battleship.Player">Player</a></span>, <span name="firstPlayer">firstPlayer: <a href="Player.html" class="extype" name="battleship.Player">Player</a></span>)</span><span class="result"> extends <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">The current state of the game:
+- players grids
+- players fleet
+- players scores</p><div class="fullcomment"><div class="comment cmt"><p>The current state of the game:
+- players grids
+- players fleet
+- players scores</p></div><dl class="paramcmts block"><dt class="param">active</dt><dd class="cmt"><p>player whose turn it is to play</p></dd><dt class="param">opponent</dt><dd class="cmt"><p>opponent on which to fire</p></dd><dt class="param">firstPlayer</dt><dd class="cmt"><p>the first player of the game, used to switch first player on next game</p></dd></dl></div>
+    </li><li name="battleship.Player" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="PlayerextendsProductwithSerializable"></a><a id="Player:Player"></a>
+      <span class="permalink">
+      <a href="../battleship/index.html#PlayerextendsProductwithSerializable" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a title="Class to define a player comportement" href="Player.html"><span class="name">Player</span></a><span class="params">(<span name="name">name: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="isHuman">isHuman: <span class="extype" name="scala.Boolean">Boolean</span></span>, <span name="shipsBoard">shipsBoard: <a href="Board.html" class="extype" name="battleship.Board">Board</a></span>, <span name="hitsBoard">hitsBoard: <a href="Board.html" class="extype" name="battleship.Board">Board</a></span>, <span name="fleet">fleet: <span class="extype" name="scala.List">List</span>[<a href="Ship.html" class="extype" name="battleship.Ship">Ship</a>] = <span class="symbol">List()</span></span>, <span name="positionsHit">positionsHit: <span class="extype" name="scala.List">List</span>[(<span class="extype" name="scala.Int">Int</span>, <span class="extype" name="scala.Int">Int</span>, <span class="extype" name="scala.Boolean">Boolean</span>)] = <span class="symbol">List()</span></span>, <span name="score">score: <span class="extype" name="scala.Int">Int</span> = <span class="symbol">0</span></span>)</span><span class="result"> extends <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">Class to define a player comportement</p><div class="fullcomment"><div class="comment cmt"><p>Class to define a player comportement</p></div><dl class="paramcmts block"><dt class="param">name</dt><dd class="cmt"><p>the namle of the player (or the AI)</p></dd><dt class="param">isHuman</dt><dd class="cmt"><p>true if human, false if AI player</p></dd><dt class="param">shipsBoard</dt><dd class="cmt"><p>the board containing the player's ships (Board)</p></dd><dt class="param">hitsBoard</dt><dd class="cmt"><p>the board containing the player's hits (Board)</p></dd><dt class="param">fleet</dt><dd class="cmt"><p>the player's fleet of ships (List of Ship)</p></dd><dt class="param">positionsHit</dt><dd class="cmt"><p>the player's HIT shoots (List of Tuple3)</p></dd><dt class="param">score</dt><dd class="cmt"><p>number of games won</p></dd></dl></div>
+    </li><li name="battleship.Ship" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="ShipextendsProductwithSerializable"></a><a id="Ship:Ship"></a>
+      <span class="permalink">
+      <a href="../battleship/index.html#ShipextendsProductwithSerializable" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a title="Represents a ship" href="Ship.html"><span class="name">Ship</span></a><span class="params">(<span name="name">name: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="size">size: <span class="extype" name="scala.Int">Int</span></span>, <span name="direction">direction: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="positions">positions: <span class="extype" name="scala.List">List</span>[(<span class="extype" name="scala.Int">Int</span>, <span class="extype" name="scala.Int">Int</span>)] = <span class="symbol">List()</span></span>, <span name="positionsShot">positionsShot: <span class="extype" name="scala.Predef.Set">Set</span>[(<span class="extype" name="scala.Int">Int</span>, <span class="extype" name="scala.Int">Int</span>)] = <span class="symbol">Set()</span></span>)</span><span class="result"> extends <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">Represents a ship</p><div class="fullcomment"><div class="comment cmt"><p>Represents a ship</p></div><dl class="paramcmts block"><dt class="param">name</dt><dd class="cmt"><p>the name of the ship</p></dd><dt class="param">size</dt><dd class="cmt"><p>the size (number of cells) of the ship</p></dd><dt class="param">direction</dt><dd class="cmt"><p>the direction of the ship (HORIZONTAL or VERTICAL)</p></dd><dt class="param">positions</dt><dd class="cmt"><p>the positions occupied by the ship</p></dd><dt class="param">positionsShot</dt><dd class="cmt"><p>the ship's positions that has been shot</p></dd></dl></div>
+    </li></ol>
+            </div>
+
+        
+
+        <div class="values members">
+              <h3>Value Members</h3>
+              <ol>
+                <li name="battleship.CellType" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="CellType"></a><a id="CellType:CellType"></a>
+      <span class="permalink">
+      <a href="../battleship/index.html#CellType" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="CellType$.html"><span class="name">CellType</span></a><span class="result"> extends <span class="extype" name="scala.Enumeration">Enumeration</span></span>
+      </span>
+      
+      
+    </li><li name="battleship.Game" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="Game"></a><a id="Game:Game"></a>
+      <span class="permalink">
+      <a href="../battleship/index.html#Game" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a title="Entry point of the application (main)" href="Game$.html"><span class="name">Game</span></a><span class="result"> extends <span class="extype" name="scala.App">App</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">Entry point of the application (main)
+</p>
+    </li><li name="battleship.Utils" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="Utils"></a><a id="Utils:Utils"></a>
+      <span class="permalink">
+      <a href="../battleship/index.html#Utils" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a title="Utilities functions such as I/O and random number generation" href="Utils$.html"><span class="name">Utils</span></a>
+      </span>
+      
+      <p class="shortcomment cmt">Utilities functions such as I/O and random number generation
+</p>
+    </li>
+              </ol>
+            </div>
+
+        
+
+        
+        </div>
+
+        <div id="inheritedMembers">
+        
+        
+        </div>
+
+        <div id="groupedMembers">
+        <div class="group" name="Ungrouped">
+              <h3>Ungrouped</h3>
+              
+            </div>
+        </div>
+
+      </div>
+
+      <div id="tooltip"></div>
+
+      <div id="footer">  </div>
+    </body>
+          </div>
+        </div>
+      </div>
+    </body>
+      </html>
