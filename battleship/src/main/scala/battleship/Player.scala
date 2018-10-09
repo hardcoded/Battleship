@@ -69,9 +69,9 @@ case class Player(name: String, isHuman: Boolean, shipsBoard: Board, hitsBoard: 
                 val lastPositionHit = this.positionsHit.head
                 if(lastPositionHit._3) chooseTarget("AI-medium", randomX, randomY)
                 else {
-                    val adjascentPositions = this.getAdjascentPositions(lastPositionHit._1, lastPositionHit._2)
+                    val adjacentPositions = this.getadjacentPositions(lastPositionHit._1, lastPositionHit._2)
                     val secondLastHit = if(this.positionsHit.size > 1) this.positionsHit(1) else lastPositionHit
-                    getNextHit(adjascentPositions, lastPositionHit, secondLastHit).getOrElse(chooseTarget("AI-medium", randomX, randomY))
+                    getNextHit(adjacentPositions, lastPositionHit, secondLastHit).getOrElse(chooseTarget("AI-medium", randomX, randomY))
                 }
             }
         }
@@ -86,7 +86,7 @@ case class Player(name: String, isHuman: Boolean, shipsBoard: Board, hitsBoard: 
       * @return the next position to shoot on if found, None if not
       */
     def getNextHit(shootPossibilities: List[(Int, Int)], lastHit: (Int, Int, Boolean), secondLastHit: (Int, Int, Boolean)): Option[(Int, Int)] = {
-        if(shootPossibilities.isEmpty) None // if all adjascent positions are shot get random position
+        if(shootPossibilities.isEmpty) None // if all adjacent positions are shot get random position
         else {
             if(shootPossibilities.contains(secondLastHit)) {
                 val diff = (lastHit._1 - secondLastHit._1, lastHit._1 - secondLastHit._1)
@@ -107,10 +107,10 @@ case class Player(name: String, isHuman: Boolean, shipsBoard: Board, hitsBoard: 
     }
 
     /**
-      * Check if adjascent positions contain a HIT
+      * Check if adjacent positions contain a HIT
       * @param lastPosChecked last position verified
       * @param diff tuple of difference between the last two positions hit
-      * @return the adjascent position of the last HIT or None if all were hit
+      * @return the adjacent position of the last HIT or None if all were hit
       */
     def checkAdjPos(lastPosChecked: (Int, Int), diff: (Int, Int)): Option[(Int, Int)] = {
         val newPos = (lastPosChecked._1 - diff._1, lastPosChecked._2 - diff._2)
@@ -127,7 +127,7 @@ case class Player(name: String, isHuman: Boolean, shipsBoard: Board, hitsBoard: 
       * @param y
       * @return
       */
-    def getAdjascentPositions(x: Int, y: Int): List[(Int, Int)] = {
+    def getadjacentPositions(x: Int, y: Int): List[(Int, Int)] = {
         (x, y-1) :: (x-1, y) :: (x, y+1) :: (x+1, y) :: Nil
     }
 

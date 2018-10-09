@@ -18,7 +18,7 @@ case class Board(grid: List[List[CellType]]) {
       */
     def placeShip(ship: Ship): Board = {
         /**
-          * Recursivly udate the cells occupied by the ship
+          * Recursively udate the cells occupied by the ship
           * @param positions the cells left to update
           * @param updatedGrid the new grid with updated cells
           * @return the grid with updated cells for the ship
@@ -81,7 +81,7 @@ case class Board(grid: List[List[CellType]]) {
       */
     def canPlaceShip(ship: Ship): Boolean = {
         /**
-          * Recursivly check each potential positions of the ship to place
+          * Recursively check each potential positions of the ship to place
           * @param positions the positions the ship will occupy
           * @return false if one of the position is not OK (outside the board or a ship is there), true otherwise
           */
