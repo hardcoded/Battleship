@@ -6,8 +6,6 @@ import scala.util.Random
 import CellType._
 import Utils._
 
-<<<<<<< HEAD
-=======
 /**
   * Class to define a player comportement
   * @param name the namle of the player (or the AI)
@@ -18,16 +16,11 @@ import Utils._
   * @param positionsHit the player's HIT shoots (List of Tuple3)
   * @param score number of games won
   */
->>>>>>> develop
 case class Player(name: String, isHuman: Boolean, shipsBoard: Board, hitsBoard: Board, fleet: List[Ship] = List(), positionsHit: List[(Int, Int, Boolean)] = List(), score: Int = 0) {
 
     /**
       * Check if the player still has unsunk ships
-<<<<<<< HEAD
-      * @return true if the player has unskunk ships, false if not
-=======
       * @return true if the player has unskunk ships, false otherwise
->>>>>>> develop
       */
     def isAlive: Boolean = {
         val sunkShips = this.fleet.filter(ship => ship.isSunk)
@@ -53,15 +46,10 @@ case class Player(name: String, isHuman: Boolean, shipsBoard: Board, hitsBoard: 
       *  - easy AI : choose random target (even if already shot)
       *  - medium AI : choose random target (but never same target twice)
       *  - hard AI : choose random target (even if already shot)
-<<<<<<< HEAD
-      * @param aiLevel target chosen from random to accurate
-      * @return tuple of int for the position
-=======
       * @param aiLevel AI level to choose algorithm
       * @param randomX random seed
       * @param randomY random seed
       * @return tuple of Int for position to target
->>>>>>> develop
       */
     def chooseTarget(aiLevel: String, randomX: Random, randomY: Random): (Int, Int) = aiLevel match {
         case "AI-easy" => {
@@ -76,34 +64,20 @@ case class Player(name: String, isHuman: Boolean, shipsBoard: Board, hitsBoard: 
             else chooseTarget(aiLevel, randomX, randomY)
         }
         case "AI-hard" => {
-<<<<<<< HEAD
-            // TODO: try to follow ship by looking direction of hits
-=======
->>>>>>> develop
             if(this.positionsHit.isEmpty) chooseTarget("AI-medium", randomX, randomY)
             else {
                 val lastPositionHit = this.positionsHit.head
                 if(lastPositionHit._3) chooseTarget("AI-medium", randomX, randomY)
                 else {
-<<<<<<< HEAD
-                    val adjascentPositions = this.getAdjascentPositions(lastPositionHit._1, lastPositionHit._2)
-                    val secondLastHit = if(this.positionsHit.size > 1) this.positionsHit(1) else lastPositionHit
-                    getNextHit(adjascentPositions, lastPositionHit, secondLastHit).getOrElse(chooseTarget("AI-medium", randomX, randomY))
-=======
                     val adjacentPositions = this.getadjacentPositions(lastPositionHit._1, lastPositionHit._2)
                     val secondLastHit = if(this.positionsHit.size > 1) this.positionsHit(1) else lastPositionHit
                     getNextHit(adjacentPositions, lastPositionHit, secondLastHit).getOrElse(chooseTarget("AI-medium", randomX, randomY))
->>>>>>> develop
                 }
             }
         }
         case _ => (0,0)
     }
 
-<<<<<<< HEAD
-    def getNextHit(shootPossibilities: List[(Int, Int)], lastHit: (Int, Int, Boolean), secondLastHit: (Int, Int, Boolean)): Option[(Int, Int)] = {
-        if(shootPossibilities.isEmpty) None // if all adjascent positions are shot get random position
-=======
     /**
       * Calculate the next position to shoot on
       * @param shootPossibilities the possible targets to shoot
@@ -113,7 +87,6 @@ case class Player(name: String, isHuman: Boolean, shipsBoard: Board, hitsBoard: 
       */
     def getNextHit(shootPossibilities: List[(Int, Int)], lastHit: (Int, Int, Boolean), secondLastHit: (Int, Int, Boolean)): Option[(Int, Int)] = {
         if(shootPossibilities.isEmpty) None // if all adjacent positions are shot get random position
->>>>>>> develop
         else {
             if(shootPossibilities.contains(secondLastHit)) {
                 val diff = (lastHit._1 - secondLastHit._1, lastHit._1 - secondLastHit._1)
@@ -133,15 +106,12 @@ case class Player(name: String, isHuman: Boolean, shipsBoard: Board, hitsBoard: 
         }
     }
 
-<<<<<<< HEAD
-=======
     /**
       * Check if adjacent positions contain a HIT
       * @param lastPosChecked last position verified
       * @param diff tuple of difference between the last two positions hit
       * @return the adjacent position of the last HIT or None if all were hit
       */
->>>>>>> develop
     def checkAdjPos(lastPosChecked: (Int, Int), diff: (Int, Int)): Option[(Int, Int)] = {
         val newPos = (lastPosChecked._1 - diff._1, lastPosChecked._2 - diff._2)
         this.hitsBoard.getCellState(newPos._1, newPos._2) match {
@@ -151,12 +121,6 @@ case class Player(name: String, isHuman: Boolean, shipsBoard: Board, hitsBoard: 
         }
     }
 
-<<<<<<< HEAD
-    def getAdjascentPositions(x: Int, y: Int): List[(Int, Int)] = {
-        (x, y-1) :: (x-1, y) :: (x, y+1) :: (x+1, y) :: Nil
-    }
-
-=======
     /**
       * Get the four positions around the last hit position
       * @param x
@@ -174,7 +138,6 @@ case class Player(name: String, isHuman: Boolean, shipsBoard: Board, hitsBoard: 
       * @param isSunk true if the hit sunk the ship
       * @return updated list of hit positions
       */
->>>>>>> develop
     def addHitPosition(x: Int, y: Int, isSunk: Boolean = false): List[(Int, Int, Boolean)] = {
         (x, y, isSunk) :: this.positionsHit
     }
@@ -187,11 +150,7 @@ case class Player(name: String, isHuman: Boolean, shipsBoard: Board, hitsBoard: 
       * @return a tuple with the players updated
       */
     def fireAtCell(x: Int, y: Int, opponent: Player): (Player, Player) = {
-<<<<<<< HEAD
-        opponent.shipsBoard.grid(x)(y) match {
-=======
         opponent.shipsBoard.getCellState(x, y) match {
->>>>>>> develop
             case SHIP => {
                 if(this.isHuman) displayMessage(s"${Console.RED} HIT! ${Console.RESET} ")
 

@@ -2,10 +2,6 @@ package battleship
 
 import scala.annotation.tailrec
 
-<<<<<<< HEAD
-case class Ship(name: String, size: Int, direction: String, positions: List[(Int,Int)] = List(), positionsShot: Set[(Int,Int)] = Set()) {
-
-=======
 /**
   * Represents a ship
   * @param name the name of the ship
@@ -22,27 +18,21 @@ case class Ship(name: String, size: Int, direction: String, positions: List[(Int
       * @param y the y coordinate of the cell
       * @return the updated ship
       */
->>>>>>> develop
     def addShoot(x: Int, y: Int): Ship = {
         val pos = (x,y)
         val newPositionShot = this.positionsShot + pos
         copy(positionsShot = newPositionShot)
     }
 
-<<<<<<< HEAD
-=======
     /**
       * Check if the ship has been sunk, i.e: all the positions have been shot
       * @return true if the ship is sunk, false otherwise
       */
->>>>>>> develop
     def isSunk: Boolean = {
         if(this.positions.length == this.positionsShot.size) true
         else false
     }
 
-<<<<<<< HEAD
-=======
     /**
       * Create recursively the postions the ship will occupy
       * @param x the x coordinate where the ship starts
@@ -50,7 +40,6 @@ case class Ship(name: String, size: Int, direction: String, positions: List[(Int
       * @param positions the positions generated
       * @return the ship updated
       */
->>>>>>> develop
     def createPositions(x: Int, y: Int, positions: List[(Int,Int)]): Ship = {
         @tailrec
         def createPosition(x: Int, y: Int, positions: List[(Int,Int)]): Ship = {
@@ -74,8 +63,4 @@ case class Ship(name: String, size: Int, direction: String, positions: List[(Int
         }
         createPosition(x, y, positions)
     }
-<<<<<<< HEAD
-
-=======
->>>>>>> develop
 }

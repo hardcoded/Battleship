@@ -2,10 +2,6 @@ package battleship
 
 import Player._
 
-<<<<<<< HEAD
-case class GameState(active: Player, opponent: Player, firstPlayer: Player) {
-
-=======
 /**
   * The current state of the game:
   * - players grids
@@ -21,7 +17,6 @@ case class GameState(active: Player, opponent: Player, firstPlayer: Player) {
       * Interchange the active and opponent players for the next turn
       * @return the new game state
       */
->>>>>>> develop
     def switchPlayers: GameState = {
         val switchedActive = opponent
         val switchedOpponent = active
