@@ -263,7 +263,7 @@ object Game extends App {
                             }
                             displayMessage(s"Scores :  ${newGameState.active.name}  ${newGameState.active.score} - ${newGameState.opponent.score}  ${newGameState.opponent.name}")
                             writeToCSV(newGameState)
-                            askUserChooseMode()
+                            chooseMode()
                             newGameState
                         }
                         case _ => {
