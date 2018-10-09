@@ -20,7 +20,7 @@ case class Player(name: String, isHuman: Boolean, shipsBoard: Board, hitsBoard: 
 
     /**
       * Check if the player still has unsunk ships
-      * @return true if the player has unskunk ships, false if not
+      * @return true if the player has unskunk ships, false otherwise
       */
     def isAlive: Boolean = {
         val sunkShips = this.fleet.filter(ship => ship.isSunk)
@@ -64,7 +64,6 @@ case class Player(name: String, isHuman: Boolean, shipsBoard: Board, hitsBoard: 
             else chooseTarget(aiLevel, randomX, randomY)
         }
         case "AI-hard" => {
-            // TODO: try to follow ship by looking direction of hits
             if(this.positionsHit.isEmpty) chooseTarget("AI-medium", randomX, randomY)
             else {
                 val lastPositionHit = this.positionsHit.head
@@ -151,7 +150,7 @@ case class Player(name: String, isHuman: Boolean, shipsBoard: Board, hitsBoard: 
       * @return a tuple with the players updated
       */
     def fireAtCell(x: Int, y: Int, opponent: Player): (Player, Player) = {
-        opponent.shipsBoard.grid(x)(y) match {
+        opponent.shipsBoard.getCellState(x, y) match {
             case SHIP => {
                 if(this.isHuman) displayMessage(s"${Console.RED} HIT! ${Console.RESET} ")
 
