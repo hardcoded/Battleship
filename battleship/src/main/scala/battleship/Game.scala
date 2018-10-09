@@ -122,11 +122,6 @@ object Game extends App {
 
         val updatedGameState = gameState.copy(active = activePlayerWithShips, opponent = opponentWithShips)
 
-        /**
-          * Logic for a player turn: fire at opponent
-          * @param gameState the current state of the players (grids and fleet)
-          * @return the new state of the game after the player's turn (grids and fleet updated)
-          */
         @tailrec
         def playerTurn(gameState: GameState): GameState = {
 
@@ -212,7 +207,7 @@ object Game extends App {
       * @param gameState the current state of the game (players state, mostly for scores)
       * @param numberOfGamesToPlay
       * @param currentGameNumber
-      * @return
+      * @return the final game state
       */
     @tailrec
     def mainLoopAIvsAI(gameState: GameState, numberOfGamesToPlay: Int, currentGameNumber: Int): GameState = {
@@ -224,11 +219,6 @@ object Game extends App {
 
         val updatedGameState = gameState.copy(active = activePlayerWithShips, opponent = opponentWithShips)
 
-        /**
-          * Logic for an AI player turn: fire at opponent
-          * @param gameState the current state of the players (grids and fleet)
-          * @return the new state of the game after the player's turn (grids and fleet updated)
-          */
         @tailrec
         def playerTurn(gameState: GameState): GameState = {
 
@@ -327,20 +317,14 @@ object Game extends App {
     }
 
     /**
-      * User place ships on board
-      * @param shipsToPlace Map of the ships to place
+      * Recursive funcftion to place the ships on the board
+      * @param shipsToPlace the list of ships still not placed
       * @param player the player placing its ships
       * @return the player with placed ships
       */
     def userPlaceShips(shipsToPlace: Map[String, Int], player: Player): Player = {
         askUserToPlaceShips(player.name)
 
-        /**
-          * Recursive funcftion to place the ships on the board
-          * @param shipsToPlace the list of ships still not placed
-          * @param player the player placing its ships
-          * @return the player with placed ships
-          */
         @tailrec
         def placeShips(shipsToPlace: Map[String, Int], player: Player): Player = {
             if(shipsToPlace.isEmpty) player
@@ -381,19 +365,12 @@ object Game extends App {
 
 
     /**
-      * AI place ships randomly on board
-      * @param shipsToPlace Map of the ships to place
+      * Recursive funcftion to place the ships on the board
+      * @param shipsToPlace the list of ships still not placed
       * @param player the player placing its ships
       * @return the player with placed ships
       */
     def aiPlaceShips(shipsToPlace: Map[String, Int], player: Player): Player = {
-
-        /**
-          * Recursive funcftion to place the ships on the board
-          * @param shipsToPlace the list of ships still not placed
-          * @param player the player placing its ships
-          * @return the player with placed ships
-          */
         @tailrec
         def placeShips(shipsToPlace: Map[String, Int], player: Player): Player = {
             if(shipsToPlace.isEmpty) player
