@@ -47,32 +47,45 @@ object Game extends App {
                 mainLoop(initialGameState)
             }
             case 4 => {
-                displayMessage("This mode will be available soon")
-//                val player1 = createPlayer(1)
-//                val player2 = createAI("AI-hard")
-//                val initialGameState = GameState(player1, player2, player1)
-//                mainLoop(initialGameState)
+                val player1 = createPlayer(1)
+                val player2 = createAI("AI-hard")
+                val initialGameState = GameState(player1, player2, player1)
+                mainLoop(initialGameState)
             }
             case 5 => {
+                val numberOfSimulations = askNumberOfSimulations()
                 val player1 = createAI("AI-easy")
                 val player2 = createAI("AI-medium")
                 val initialGameState = GameState(player1, player2, player1)
-                val numberOfSimulations = askNumberOfSimulations()
                 mainLoopAIvsAI(initialGameState, numberOfSimulations, 1)
             }
             case 6 => {
-                displayMessage("This mode will be available soon")
-//                val player1 = createAI("AI-medium")
-//                val player2 = createAI("AI-hard")
-//                val initialGameState = GameState(player1, player2, player1)
-//                mainLoop(initialGameState)
+                val numberOfSimulations = askNumberOfSimulations()
+                val player1 = createAI("AI-easy")
+                val player2 = createAI("AI-hard")
+                val initialGameState = GameState(player1, player2, player1)
+                mainLoopAIvsAI(initialGameState, numberOfSimulations, 1)
             }
             case 7 => {
-                displayMessage("This mode will be available soon")
-//                val player1 = createAI("AI-easy")
-//                val player2 = createAI("AI-hard")
-//                val initialGameState = GameState(player1, player2, player1)
-//                mainLoop(initialGameState)
+                val numberOfSimulations = askNumberOfSimulations()
+                val player1 = createAI("AI-medium")
+                val player2 = createAI("AI-hard")
+                val initialGameState = GameState(player1, player2, player1)
+                mainLoopAIvsAI(initialGameState, numberOfSimulations, 1)
+            }
+            case 8 => {
+                val numberOfSimulations = askNumberOfSimulations()
+                val player1 = createAI("AI-easy")
+                val player2 = createAI("AI-medium")
+                val player3 = createAI("AI-hard")
+
+                val initialGameState1 = GameState(player1, player2, player1)
+                val initialGameState2 = GameState(player1, player3, player1)
+                val initialGameState3 = GameState(player2, player3, player2)
+
+                mainLoopAIvsAI(initialGameState1, numberOfSimulations, 1)
+                mainLoopAIvsAI(initialGameState2, numberOfSimulations, 1)
+                mainLoopAIvsAI(initialGameState3, numberOfSimulations, 1)
             }
             case _ => {
                 displayError("This is not a valid option!")
@@ -93,7 +106,7 @@ object Game extends App {
         askUserToContinue()
         clearConsole()
 
-        val opponentWithShips = if(gameState.active.isHuman) userPlaceShips(ships, gameState.active) else aiPlaceShips(ships, gameState.active)
+        val opponentWithShips = if(gameState.opponent.isHuman) userPlaceShips(ships, gameState.opponent) else aiPlaceShips(ships, gameState.opponent)
 
         displayBoard(opponentWithShips.shipsBoard)
 //        if(gameState.active.isHuman) askUserToContinue()
@@ -105,13 +118,12 @@ object Game extends App {
         @tailrec
         def playerTurn(gameState: GameState): GameState = {
 
-            // TODO: display active player's boards
+            displayMessage(s"${gameState.active.name}'s turn\n")
+
             displayMessage("--> Your hits board")
             displayBoard(gameState.active.hitsBoard)
             displayMessage("--> Your ships board")
             displayBoard(gameState.active.shipsBoard)
-
-            displayMessage(s"${gameState.active.name} to shoot")
 
             val aiShootPos = gameState.active.chooseTarget(gameState.active.name, Random, Random)
 
@@ -177,18 +189,31 @@ object Game extends App {
         displayMessage(s"Game number : $currentGameNumber/$numberOfGamesToPlay")
 
         val activePlayerWithShips = aiPlaceShips(ships, gameState.active)
+//        askUserToContinue()
 
         val opponentWithShips = aiPlaceShips(ships, gameState.opponent)
 
         val updatedGameState = gameState.copy(active = activePlayerWithShips, opponent = opponentWithShips)
+//        askUserToContinue()
 
         @tailrec
         def playerTurn(gameState: GameState): GameState = {
+//            clearConsole()
+//
+//            displayMessage(s"${gameState.active.name}'s turn\n")
+//
+//            displayMessage("--> Your hits board")
+//            displayBoard(gameState.active.hitsBoard)
+//            displayMessage("--> Your ships board")
+//            displayBoard(gameState.active.shipsBoard)
 
             val aiShootPos = gameState.active.chooseTarget(gameState.active.name, Random, Random)
+//            println(s"AI will shoot here : $aiShootPos")
 
             if(gameState.active.hitsBoard.isPositionValid(aiShootPos._1, aiShootPos._2)) {
                 val updatedPlayersAfterShot = gameState.active.fireAtCell(aiShootPos._1, aiShootPos._2, gameState.opponent)
+
+//                askUserToContinue()
 
                 val updatedGameState = gameState.copy(active = updatedPlayersAfterShot._1, opponent = updatedPlayersAfterShot._2)
 
@@ -272,13 +297,12 @@ object Game extends App {
             else {
                 val shipToPlace = shipsToPlace.head
 
-                // TODO: display ships board
                 displayBoard(player.shipsBoard)
+                askUserToPlaceShip(shipToPlace._1, shipToPlace._2)
 
                 val xPos = askUserForPosition("x")
                 val yPos = askUserForPosition("y")
 
-                // if human ask direction else generate direction
                 val direction = askUserForShipDirection() match {
                     case 1 => "VERTICAL"
                     case _ => "HORIZONTAL"
