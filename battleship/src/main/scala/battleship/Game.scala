@@ -17,14 +17,18 @@ import Utils._
 object Game extends App {
 
     val ships: Map[String, Int] = Map("Carrier" -> 5, "BattleShip" -> 4, "Cruiser" -> 3, "Submarine" -> 3, "Destroyer" -> 2)
-//    val ships: Map[String, Int] = Map("Carrier" -> 5, "Submarine" -> 3)
-//    val ships: Map[String, Int] = Map("Cruiser" -> 3)
 
     initializeConsole()
     displayMessage(s"Let's play!")
     chooseMode()
 
 
+    /**
+      * Choose playing mode between:
+      * - human vs human
+      * - human vs IA (with different levels of difficulty)
+      * - IA vs IA (with different levels of difficulty)
+      */
     def chooseMode(): Unit = {
         val mode = askUserChooseMode()
         mode match {
@@ -74,18 +78,19 @@ object Game extends App {
                 mainLoopAIvsAI(initialGameState, numberOfSimulations, 1)
             }
             case 8 => {
-                val numberOfSimulations = askNumberOfSimulations()
-                val player1 = createAI("AI-easy")
-                val player2 = createAI("AI-medium")
-                val player3 = createAI("AI-hard")
-
-                val initialGameState1 = GameState(player1, player2, player1)
-                val initialGameState2 = GameState(player1, player3, player1)
-                val initialGameState3 = GameState(player2, player3, player2)
-
-                mainLoopAIvsAI(initialGameState1, numberOfSimulations, 1)
-                mainLoopAIvsAI(initialGameState2, numberOfSimulations, 1)
-                mainLoopAIvsAI(initialGameState3, numberOfSimulations, 1)
+                displayError("Coming soon!")
+//                val numberOfSimulations = askNumberOfSimulations()
+//                val player1 = createAI("AI-easy")
+//                val player2 = createAI("AI-medium")
+//                val player3 = createAI("AI-hard")
+//
+//                val initialGameState1 = GameState(player1, player2, player1)
+//                val initialGameState2 = GameState(player1, player3, player1)
+//                val initialGameState3 = GameState(player2, player3, player2)
+//
+//                mainLoopAIvsAI(initialGameState1, numberOfSimulations, 1)
+//                mainLoopAIvsAI(initialGameState2, numberOfSimulations, 1)
+//                mainLoopAIvsAI(initialGameState3, numberOfSimulations, 1)
             }
             case _ => {
                 displayError("This is not a valid option!")
@@ -94,7 +99,11 @@ object Game extends App {
         }
     }
 
-    // TODO: create AI methods to play
+    /**
+      * Main loop of the game (human vs human or human vs IA): place ships then play turn by turn
+      * @param gameState the current state of the game (players state, mostly for scores)
+      * @return the last state of the game
+      */
     @tailrec
     def mainLoop(gameState: GameState): GameState = {
         clearConsole()
@@ -102,19 +111,22 @@ object Game extends App {
         val activePlayerWithShips = if(gameState.active.isHuman) userPlaceShips(ships, gameState.active) else aiPlaceShips(ships, gameState.active)
 
         displayBoard(activePlayerWithShips.shipsBoard)
-//        if(gameState.active.isHuman) askUserToContinue()
-        askUserToContinue()
+        if(gameState.active.isHuman) askUserToContinue()
         clearConsole()
 
         val opponentWithShips = if(gameState.opponent.isHuman) userPlaceShips(ships, gameState.opponent) else aiPlaceShips(ships, gameState.opponent)
 
         displayBoard(opponentWithShips.shipsBoard)
-//        if(gameState.active.isHuman) askUserToContinue()
-        askUserToContinue()
+        if(gameState.active.isHuman) askUserToContinue()
         clearConsole()
 
         val updatedGameState = gameState.copy(active = activePlayerWithShips, opponent = opponentWithShips)
 
+        /**
+          * Logic for a player turn: fire at opponent
+          * @param gameState the current state of the players (grids and fleet)
+          * @return the new state of the game after the player's turn (grids and fleet updated)
+          */
         @tailrec
         def playerTurn(gameState: GameState): GameState = {
 
@@ -133,8 +145,7 @@ object Game extends App {
             if(gameState.active.hitsBoard.isPositionValid(shotXPos, shotYPos)) {
                 val updatedPlayersAfterShot = gameState.active.fireAtCell(shotXPos, shotYPos, gameState.opponent)
 
-//                if(gameState.active.isHuman) askUserToContinue()
-                askUserToContinue()
+                if(gameState.active.isHuman) askUserToContinue()
 
                 val updatedGameState = gameState.copy(active = updatedPlayersAfterShot._1, opponent = updatedPlayersAfterShot._2)
 
@@ -156,6 +167,18 @@ object Game extends App {
                     val isNewGame = askUserForNewGame()
                     isNewGame match {
                         case 1 => newGameState
+                        case 2 => {
+                            displayMessage(s"END OF GAME")
+                            if(newGameState.active.score == newGameState.opponent.score) displayMessage("It's a tie!")
+                            else {
+                                val overallWinner = if(newGameState.active.score < newGameState.opponent.score) newGameState.opponent.name else newGameState.active.name
+                                displayMessage(s"$overallWinner is the overall winner!")
+                            }
+                            displayMessage(s"Scores :  ${newGameState.active.name}  ${newGameState.active.score} - ${newGameState.opponent.score}  ${newGameState.opponent.name}")
+                            writeToCSV(newGameState)
+                            askUserChooseMode()
+                            newGameState
+                        }
                         case _ => {
                             displayMessage(s"END OF GAME")
                             if(newGameState.active.score == newGameState.opponent.score) displayMessage("It's a tie!")
@@ -164,6 +187,7 @@ object Game extends App {
                                 displayMessage(s"$overallWinner is the overall winner!")
                             }
                             displayMessage(s"Scores :  ${newGameState.active.name}  ${newGameState.active.score} - ${newGameState.opponent.score}  ${newGameState.opponent.name}")
+                            writeToCSV(newGameState)
                             newGameState
                         }
                     }
@@ -183,37 +207,35 @@ object Game extends App {
     }
 
 
+    /**
+      * Main loop of the game for AI vs AI: place ships then play turn by turn
+      * @param gameState the current state of the game (players state, mostly for scores)
+      * @param numberOfGamesToPlay
+      * @param currentGameNumber
+      * @return
+      */
     @tailrec
     def mainLoopAIvsAI(gameState: GameState, numberOfGamesToPlay: Int, currentGameNumber: Int): GameState = {
         clearConsole()
         displayMessage(s"Game number : $currentGameNumber/$numberOfGamesToPlay")
 
         val activePlayerWithShips = aiPlaceShips(ships, gameState.active)
-//        askUserToContinue()
-
         val opponentWithShips = aiPlaceShips(ships, gameState.opponent)
 
         val updatedGameState = gameState.copy(active = activePlayerWithShips, opponent = opponentWithShips)
-//        askUserToContinue()
 
+        /**
+          * Logic for an AI player turn: fire at opponent
+          * @param gameState the current state of the players (grids and fleet)
+          * @return the new state of the game after the player's turn (grids and fleet updated)
+          */
         @tailrec
         def playerTurn(gameState: GameState): GameState = {
-//            clearConsole()
-//
-//            displayMessage(s"${gameState.active.name}'s turn\n")
-//
-//            displayMessage("--> Your hits board")
-//            displayBoard(gameState.active.hitsBoard)
-//            displayMessage("--> Your ships board")
-//            displayBoard(gameState.active.shipsBoard)
 
             val aiShootPos = gameState.active.chooseTarget(gameState.active.name, Random, Random)
-//            println(s"AI will shoot here : $aiShootPos")
 
             if(gameState.active.hitsBoard.isPositionValid(aiShootPos._1, aiShootPos._2)) {
                 val updatedPlayersAfterShot = gameState.active.fireAtCell(aiShootPos._1, aiShootPos._2, gameState.opponent)
-
-//                askUserToContinue()
 
                 val updatedGameState = gameState.copy(active = updatedPlayersAfterShot._1, opponent = updatedPlayersAfterShot._2)
 
@@ -241,7 +263,7 @@ object Game extends App {
                             }
                             displayMessage(s"Scores :  ${newGameState.active.name}  ${newGameState.active.score} - ${newGameState.opponent.score}  ${newGameState.opponent.name}")
                             writeToCSV(newGameState)
-                            chooseMode()
+                            askUserChooseMode()
                             newGameState
                         }
                         case _ => {
@@ -269,12 +291,22 @@ object Game extends App {
         mainLoopAIvsAI(newGameState, numberOfGamesToPlay, currentGameNumber + 1)
     }
 
+    /**
+      * Reset player grids but keep all other informations
+      * @param player the player to reset the grids for
+      * @return the reset player
+      */
     def resetPlayer(player: Player): Player = {
         val emptyShipsGrid = Board(List.fill(10)(List.fill(10)(WATER)))
         val emptyHitsGrid = Board(List.fill(10)(List.fill(10)(WATER)))
         player.copy(shipsBoard = emptyShipsGrid, hitsBoard = emptyHitsGrid, fleet = List())
     }
 
+    /**
+      * Create a human player
+      * @param num the number of the player (for display purpose)
+      * @return the new Player created
+      */
     def createPlayer(num: Int): Player = {
         clearConsole()
         val name = askUserForName(num)
@@ -283,14 +315,32 @@ object Game extends App {
         Player(name, true, emptyShipsGrid, emptyHitsGrid)
     }
 
+    /**
+      * Create an AI player
+      * @param aiName the name of the AI (corresponding to it's level)
+      * @return the new Player created
+      */
     def createAI(aiName: String): Player = {
         val emptyShipsGrid = Board(List.fill(10)(List.fill(10)(WATER)))
         val emptyHitsGrid = Board(List.fill(10)(List.fill(10)(WATER)))
         Player(aiName, false, emptyShipsGrid, emptyHitsGrid)
     }
 
+    /**
+      * User place ships on board
+      * @param shipsToPlace Map of the ships to place
+      * @param player the player placing its ships
+      * @return the player with placed ships
+      */
     def userPlaceShips(shipsToPlace: Map[String, Int], player: Player): Player = {
         askUserToPlaceShips(player.name)
+
+        /**
+          * Recursive funcftion to place the ships on the board
+          * @param shipsToPlace the list of ships still not placed
+          * @param player the player placing its ships
+          * @return the player with placed ships
+          */
         @tailrec
         def placeShips(shipsToPlace: Map[String, Int], player: Player): Player = {
             if(shipsToPlace.isEmpty) player
@@ -329,7 +379,21 @@ object Game extends App {
         placeShips(shipsToPlace, player)
     }
 
+
+    /**
+      * AI place ships randomly on board
+      * @param shipsToPlace Map of the ships to place
+      * @param player the player placing its ships
+      * @return the player with placed ships
+      */
     def aiPlaceShips(shipsToPlace: Map[String, Int], player: Player): Player = {
+
+        /**
+          * Recursive funcftion to place the ships on the board
+          * @param shipsToPlace the list of ships still not placed
+          * @param player the player placing its ships
+          * @return the player with placed ships
+          */
         @tailrec
         def placeShips(shipsToPlace: Map[String, Int], player: Player): Player = {
             if(shipsToPlace.isEmpty) player
