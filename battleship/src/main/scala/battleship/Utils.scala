@@ -11,6 +11,9 @@ import scala.util.Random
 
 import CellType._
 
+/**
+  * Utilities functions such as I/O and random number generation
+  */
 object Utils {
 
     def initializeConsole(): Unit = {
@@ -190,7 +193,6 @@ object Utils {
         }
     }
 
-    // TODO: append result if file exist
     def writeToCSV(gameState: GameState): Unit = {
         val outputFile = new BufferedWriter(new FileWriter("ai-proof.csv", true))
         val results = s"\n${gameState.active.name}, ${gameState.active.score}, ${gameState.opponent.score}, ${gameState.opponent.name}"

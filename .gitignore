@@ -1,6 +1,9 @@
 bin/
 project/target
-target/
+target/scala-2.12/classes
+target/scala-2.12/resolution-cache
+target/scala-2.12/battleship_2.12-0.1.0-SNAPSHOT.jar
+target/streams
 example/
 build
 .classpath
@@ -8,3 +11,6 @@ build
 .DS_Store
 *.class
 .idea/
+battleship/target/
+
+target/
